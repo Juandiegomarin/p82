@@ -49,8 +49,18 @@ public class FrameTotal extends javax.swing.JFrame {
         });
 
         borrar.setText("Borrar");
+        borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarActionPerformed(evt);
+            }
+        });
 
         mostrar.setText("Mostrar");
+        mostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mostrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
         Panel.setLayout(PanelLayout);
@@ -103,6 +113,7 @@ public class FrameTotal extends javax.swing.JFrame {
         
         fi.setVisible(true);
         System.out.println(fi);
+        
     }//GEN-LAST:event_insertarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
@@ -110,7 +121,19 @@ public class FrameTotal extends javax.swing.JFrame {
         FrameModificar fm= new FrameModificar();
         fm.setVisible(true);
     }//GEN-LAST:event_modificarActionPerformed
-     
+
+    private void borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarActionPerformed
+        FrameBorrar fb= new FrameBorrar();
+        fb.setVisible(true);
+    }//GEN-LAST:event_borrarActionPerformed
+
+    private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
+        FrameMostrar fms= new FrameMostrar();
+        fms.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_mostrarActionPerformed
+    
+    
     /**
      * @param args the command line arguments
      */
