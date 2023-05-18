@@ -7,6 +7,7 @@ package application;
 import controllers.ControladorFactura;
 import controllers.exceptions.NonexistentEntityException;
 import entities.Factura;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,17 +26,18 @@ public class FrameBorrar extends javax.swing.JFrame {
      */
     public FrameBorrar() {
         initComponents();
-        
-         EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
 
-        ControladorFactura cf= new ControladorFactura(emf);
-        List <Factura> facturas = cf.findFacturaEntities();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+        List<Factura> facturas = cf.findFacturaEntities();
 
         DefaultTableModel m = new DefaultTableModel();
 
-        m.setColumnIdentifiers(new String[]{"Pk","Fecha","Descripcion","Precio"});
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
         for (Factura factura : facturas) {
-            Object[] objetos= {factura.getPk(),factura.getFechaEmision(),factura.getDescripcion(),factura.getTotalImporte()};
+           
+            Object[] objetos = {factura.getPk(), factura.getFechaEmision(), factura.getDescripcion(), factura.getTotalImporte()};
             m.addRow(objetos);
         }
 
@@ -60,6 +62,7 @@ public class FrameBorrar extends javax.swing.JFrame {
         Tabla = new javax.swing.JTable();
         Borrar = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
+        Actualizar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,6 +100,18 @@ public class FrameBorrar extends javax.swing.JFrame {
         });
 
         Atras.setText("Atras");
+        Atras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtrasActionPerformed(evt);
+            }
+        });
+
+        Actualizar.setText("Actualizar");
+        Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -108,13 +123,19 @@ public class FrameBorrar extends javax.swing.JFrame {
                         .addGap(115, 115, 115)
                         .addComponent(TextoBorrar)
                         .addGap(36, 36, 36)
-                        .addComponent(jcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(230, 230, 230)
+                        .addComponent(jcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Atras)
-                            .addComponent(Borrar))))
-                .addGap(57, 57, 57)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(132, 132, 132))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(Atras)
+                                .addGap(204, 204, 204)))))
                 .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(101, Short.MAX_VALUE))
         );
@@ -129,24 +150,26 @@ public class FrameBorrar extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TextoBorrar)
                     .addComponent(jcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66)
+                .addComponent(Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Borrar)
-                .addGap(43, 43, 43)
                 .addComponent(Atras)
-                .addGap(43, 43, 43))
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -155,18 +178,50 @@ public class FrameBorrar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarActionPerformed
-         EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
 
-        ControladorFactura cf= new ControladorFactura(emf);
-        
-        int pk=Integer.parseInt(this.jcodigo.getText());
-        
+        ControladorFactura cf = new ControladorFactura(emf);
+
+        int pk = Integer.parseInt(this.jcodigo.getText());
+
         try {
             cf.destroy(pk);
         } catch (NonexistentEntityException ex) {
-            Logger.getLogger(FrameBorrar.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }//GEN-LAST:event_BorrarActionPerformed
+
+    private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+
+        List<Factura> facturas = cf.findFacturaEntities();
+
+        DefaultTableModel m = new DefaultTableModel();
+
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
+
+        for (Factura fac : facturas) {
+            
+            Object[] objetos = {fac.getPk(), fac.getFechaEmision(), fac.getDescripcion(), fac.getTotalImporte()};
+            m.addRow(objetos);
+        }
+
+        Tabla.setModel(m);
+        Tabla.setVisible(true);
+    }//GEN-LAST:event_ActualizarActionPerformed
+
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+
+        FrameTotal f = new FrameTotal();
+
+        f.setVisible(true);
+
+        System.out.println(f);
+        this.dispose();
+    }//GEN-LAST:event_AtrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +259,7 @@ public class FrameBorrar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Actualizar;
     private javax.swing.JButton Atras;
     private javax.swing.JButton Borrar;
     private javax.swing.JScrollPane JScrollPanel;

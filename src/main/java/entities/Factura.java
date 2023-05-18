@@ -6,6 +6,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -60,8 +61,12 @@ public class Factura implements Serializable {
         this.pk = pk;
     }
 
-    public Date getFechaEmision() {
-        return fechaEmision;
+    public String getFechaEmision() {
+        
+        SimpleDateFormat s= new SimpleDateFormat("dd/MM/yyyy");
+        String fecha= s.format(fechaEmision);
+        
+        return fecha;
     }
 
     public void setFechaEmision(Date fechaEmision) {

@@ -29,6 +29,23 @@ public class FrameInsertar extends javax.swing.JFrame {
      */
     public FrameInsertar() {
         initComponents();
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+        List<Factura> facturas = cf.findFacturaEntities();
+
+        DefaultTableModel m = new DefaultTableModel();
+
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
+        for (Factura factura : facturas) {
+            
+            Object[] objetos = {factura.getPk(), factura.getFechaEmision(), factura.getDescripcion(), factura.getTotalImporte()};
+            m.addRow(objetos);
+        }
+
+        this.TablaFacturas.setModel(m);
+        this.TablaFacturas.setVisible(true);
     }
 
     /**
@@ -108,7 +125,7 @@ public class FrameInsertar extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TablaFacturas);
 
-        Atras.setText("jButton1");
+        Atras.setText("Atras");
         Atras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AtrasActionPerformed(evt);
@@ -194,17 +211,7 @@ public class FrameInsertar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarFechaActionPerformed
-        
-        Factura f = new Factura();
-        ControladorFactura cf= new ControladorFactura((EntityManagerFactory) f);
-        if(añadirFactura.isSelected()){
-        
-            
-           
-        
-        
-        }
-        
+
     }//GEN-LAST:event_insertarFechaActionPerformed
 
     private void insertarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarCodigoActionPerformed
@@ -220,54 +227,58 @@ public class FrameInsertar extends javax.swing.JFrame {
     }//GEN-LAST:event_insertarImporteActionPerformed
 
     private void añadirFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadirFacturaActionPerformed
-        
-        EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
 
-        ControladorFactura cf= new ControladorFactura(emf);
-        
-        Factura factura= new Factura();
-        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+
+        Factura factura = new Factura();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fecha=LocalDate.parse(insertarFecha.getText(), formatter);
-        
-        Date f = new java.sql.Date(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth());
-        int pk=Integer.parseInt(insertarCodigo.getText());
-        String desc= insertarDescripcion.getText();
-        double importe= Double.parseDouble(insertarImporte.getText());
-        
+        LocalDate fecha = LocalDate.parse(insertarFecha.getText(), formatter);
+
+        Date f = new java.sql.Date(fecha.getYear() - 1900, fecha.getMonthValue() - 1, fecha.getDayOfMonth());
+
+        System.out.println(f);
+
+        int pk = Integer.parseInt(insertarCodigo.getText());
+        String desc = insertarDescripcion.getText();
+        double importe = Double.parseDouble(insertarImporte.getText());
+
         factura.setPk(pk);
         factura.setFechaEmision(f);
         factura.setDescripcion(desc);
         factura.setTotalImporte(BigDecimal.valueOf(importe));
-        
+
         try {
             cf.create(factura);
         } catch (Exception ex) {
-            Logger.getLogger(FrameInsertar.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-        
-        List <Factura> facturas = cf.findFacturaEntities();
+
+        List<Factura> facturas = cf.findFacturaEntities();
 
         DefaultTableModel m = new DefaultTableModel();
 
-        m.setColumnIdentifiers(new String[]{"Pk","Fecha","Descripcion","Precio"});
-        
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
+
         for (Factura fac : facturas) {
-            Object[] objetos= {fac.getPk(),fac.getFechaEmision(),fac.getDescripcion(),fac.getTotalImporte()};
+            
+            Object[] objetos = {fac.getPk(), fac.getFechaEmision(), fac.getDescripcion(), fac.getTotalImporte()};
             m.addRow(objetos);
         }
 
         TablaFacturas.setModel(m);
         TablaFacturas.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_añadirFacturaActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         FrameTotal f = new FrameTotal();
-        
+
         f.setVisible(true);
-        
+
         System.out.println(f);
         this.dispose();
     }//GEN-LAST:event_AtrasActionPerformed

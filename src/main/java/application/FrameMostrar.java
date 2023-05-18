@@ -6,6 +6,7 @@ package application;
 
 import controllers.ControladorFactura;
 import entities.Factura;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,23 +34,24 @@ public class FrameMostrar extends javax.swing.JFrame {
      */
     public FrameMostrar() {
         initComponents();
-        
-        EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
+        TablaFacturas.setEnabled(false);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
 
-        ControladorFactura cf= new ControladorFactura(emf);
-        List <Factura> facturas = cf.findFacturaEntities();
+        ControladorFactura cf = new ControladorFactura(emf);
+        List<Factura> facturas = cf.findFacturaEntities();
 
         DefaultTableModel m = new DefaultTableModel();
 
-        m.setColumnIdentifiers(new String[]{"Pk","Fecha","Descripcion","Precio"});
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
         for (Factura factura : facturas) {
-            Object[] objetos= {factura.getPk(),factura.getFechaEmision(),factura.getDescripcion(),factura.getTotalImporte()};
+            
+            Object[] objetos = {factura.getPk(), factura.getFechaEmision(), factura.getDescripcion(), factura.getTotalImporte()};
             m.addRow(objetos);
         }
 
         TablaFacturas.setModel(m);
         TablaFacturas.setVisible(true);
-        
+
     }
 
     /**
@@ -127,24 +129,20 @@ public class FrameMostrar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAtrasActionPerformed
-        
-        
+
         FrameTotal f = new FrameTotal();
-        
+
         f.setVisible(true);
-        
+
         System.out.println(f);
         this.dispose();
     }//GEN-LAST:event_BotonAtrasActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
-        
-        
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FrameMostrar().setVisible(true);
