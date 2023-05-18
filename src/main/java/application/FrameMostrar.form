@@ -47,8 +47,8 @@
                       <Component id="jScrollPane1" min="-2" pref="1040" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="482" max="-2" attributes="0"/>
-                      <Component id="mostrarFacturas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="502" max="-2" attributes="0"/>
+                      <Component id="BotonAtras" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="23" max="32767" attributes="0"/>
@@ -60,22 +60,14 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Component id="mostrarFacturas" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="BotonAtras" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="mostrarFacturas">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Mostrar facturas"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mostrarFacturasActionPerformed"/>
-      </Events>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -97,5 +89,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="BotonAtras">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Atras"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonAtrasActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

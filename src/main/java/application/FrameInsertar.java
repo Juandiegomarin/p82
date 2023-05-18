@@ -6,9 +6,17 @@ package application;
 
 import controllers.ControladorFactura;
 import entities.Factura;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,6 +44,15 @@ public class FrameInsertar extends javax.swing.JFrame {
         insertarFecha = new javax.swing.JTextField();
         Fecha = new javax.swing.JLabel();
         añadirFactura = new javax.swing.JButton();
+        Codigo = new javax.swing.JLabel();
+        insertarCodigo = new javax.swing.JTextField();
+        Descripcion = new javax.swing.JLabel();
+        insertarDescripcion = new javax.swing.JTextField();
+        Importe = new javax.swing.JLabel();
+        insertarImporte = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaFacturas = new javax.swing.JTable();
+        Atras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,43 +65,129 @@ public class FrameInsertar extends javax.swing.JFrame {
         Fecha.setText("Fecha");
 
         añadirFactura.setText("Añadir");
+        añadirFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                añadirFacturaActionPerformed(evt);
+            }
+        });
+
+        Codigo.setText("Codigo");
+
+        insertarCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarCodigoActionPerformed(evt);
+            }
+        });
+
+        Descripcion.setText("Descripcion");
+
+        insertarDescripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarDescripcionActionPerformed(evt);
+            }
+        });
+
+        Importe.setText("Importe");
+
+        insertarImporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarImporteActionPerformed(evt);
+            }
+        });
+
+        TablaFacturas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaFacturas);
+
+        Atras.setText("jButton1");
+        Atras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtrasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(Fecha)
-                .addGap(61, 61, 61)
-                .addComponent(insertarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(955, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(añadirFactura)
-                .addGap(501, 501, 501))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(273, 273, 273)
+                        .addComponent(añadirFactura)
+                        .addGap(461, 461, 461)
+                        .addComponent(Atras))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Fecha)
+                            .addComponent(Codigo)
+                            .addComponent(Descripcion)
+                            .addComponent(Importe))
+                        .addGap(55, 55, 55)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(insertarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insertarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insertarDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(insertarImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(88, 88, 88)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(insertarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Fecha))
-                .addGap(110, 110, 110)
-                .addComponent(añadirFactura)
-                .addContainerGap(216, Short.MAX_VALUE))
+                    .addComponent(Codigo)
+                    .addComponent(insertarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Fecha)
+                    .addComponent(insertarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Descripcion)
+                    .addComponent(insertarDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Importe)
+                    .addComponent(insertarImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(añadirFactura)
+                    .addComponent(Atras))
+                .addGap(57, 57, 57))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -103,6 +206,71 @@ public class FrameInsertar extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_insertarFechaActionPerformed
+
+    private void insertarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertarCodigoActionPerformed
+
+    private void insertarDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarDescripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertarDescripcionActionPerformed
+
+    private void insertarImporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarImporteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertarImporteActionPerformed
+
+    private void añadirFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadirFacturaActionPerformed
+        
+        EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf= new ControladorFactura(emf);
+        
+        Factura factura= new Factura();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha=LocalDate.parse(insertarFecha.getText(), formatter);
+        
+        Date f = new java.sql.Date(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth());
+        int pk=Integer.parseInt(insertarCodigo.getText());
+        String desc= insertarDescripcion.getText();
+        double importe= Double.parseDouble(insertarImporte.getText());
+        
+        factura.setPk(pk);
+        factura.setFechaEmision(f);
+        factura.setDescripcion(desc);
+        factura.setTotalImporte(BigDecimal.valueOf(importe));
+        
+        try {
+            cf.create(factura);
+        } catch (Exception ex) {
+            Logger.getLogger(FrameInsertar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        List <Factura> facturas = cf.findFacturaEntities();
+
+        DefaultTableModel m = new DefaultTableModel();
+
+        m.setColumnIdentifiers(new String[]{"Pk","Fecha","Descripcion","Precio"});
+        
+        for (Factura fac : facturas) {
+            Object[] objetos= {fac.getPk(),fac.getFechaEmision(),fac.getDescripcion(),fac.getTotalImporte()};
+            m.addRow(objetos);
+        }
+
+        TablaFacturas.setModel(m);
+        TablaFacturas.setVisible(true);
+        
+        
+    }//GEN-LAST:event_añadirFacturaActionPerformed
+
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+        FrameTotal f = new FrameTotal();
+        
+        f.setVisible(true);
+        
+        System.out.println(f);
+        this.dispose();
+    }//GEN-LAST:event_AtrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,9 +308,18 @@ public class FrameInsertar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Atras;
+    private javax.swing.JLabel Codigo;
+    private javax.swing.JLabel Descripcion;
     private javax.swing.JLabel Fecha;
+    private javax.swing.JLabel Importe;
+    private javax.swing.JTable TablaFacturas;
     private javax.swing.JButton añadirFactura;
+    private javax.swing.JTextField insertarCodigo;
+    private javax.swing.JTextField insertarDescripcion;
     private javax.swing.JTextField insertarFecha;
+    private javax.swing.JTextField insertarImporte;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

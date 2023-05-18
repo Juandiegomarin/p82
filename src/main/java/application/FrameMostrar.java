@@ -33,7 +33,23 @@ public class FrameMostrar extends javax.swing.JFrame {
      */
     public FrameMostrar() {
         initComponents();
-        TablaFacturas.setVisible(false);
+        
+        EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf= new ControladorFactura(emf);
+        List <Factura> facturas = cf.findFacturaEntities();
+
+        DefaultTableModel m = new DefaultTableModel();
+
+        m.setColumnIdentifiers(new String[]{"Pk","Fecha","Descripcion","Precio"});
+        for (Factura factura : facturas) {
+            Object[] objetos= {factura.getPk(),factura.getFechaEmision(),factura.getDescripcion(),factura.getTotalImporte()};
+            m.addRow(objetos);
+        }
+
+        TablaFacturas.setModel(m);
+        TablaFacturas.setVisible(true);
+        
     }
 
     /**
@@ -46,9 +62,9 @@ public class FrameMostrar extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        mostrarFacturas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaFacturas = new javax.swing.JTable();
+        BotonAtras = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -63,13 +79,6 @@ public class FrameMostrar extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        mostrarFacturas.setText("Mostrar facturas");
-        mostrarFacturas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mostrarFacturasActionPerformed(evt);
-            }
-        });
-
         TablaFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -83,6 +92,13 @@ public class FrameMostrar extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TablaFacturas);
 
+        BotonAtras.setText("Atras");
+        BotonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,8 +109,8 @@ public class FrameMostrar extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(482, 482, 482)
-                        .addComponent(mostrarFacturas)))
+                        .addGap(502, 502, 502)
+                        .addComponent(BotonAtras)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -102,40 +118,25 @@ public class FrameMostrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(mostrarFacturas)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(BotonAtras)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void mostrarFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarFacturasActionPerformed
-        
-       
-        
-        
-        EntityManagerFactory emf= Persistence.createEntityManagerFactory("Factura");
-        
-        ControladorFactura cf= new ControladorFactura(emf);
-        List <Factura> facturas = cf.findFacturaEntities();
-        
-        
-        
-        DefaultTableModel m = new DefaultTableModel();
-        
-        m.setColumnIdentifiers(new String[]{"Pk","Fecha","Descripcion","Precio"});
-        for (Factura factura : facturas) {
-            Object[] objetos= {factura.getPk(),factura.getFechaEmision(),factura.getDescripcion(),factura.getTotalImporte()};
-            m.addRow(objetos);
-        }
-        
-        
-        
-        TablaFacturas.setModel(m);
-        TablaFacturas.setVisible(true);
-    }//GEN-LAST:event_mostrarFacturasActionPerformed
 
+    private void BotonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAtrasActionPerformed
+        
+        
+        FrameTotal f = new FrameTotal();
+        
+        f.setVisible(true);
+        
+        System.out.println(f);
+        this.dispose();
+    }//GEN-LAST:event_BotonAtrasActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -152,9 +153,9 @@ public class FrameMostrar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonAtras;
     private javax.swing.JTable TablaFacturas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton mostrarFacturas;
     // End of variables declaration//GEN-END:variables
 }
