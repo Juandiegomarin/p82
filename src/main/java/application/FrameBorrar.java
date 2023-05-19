@@ -26,6 +26,7 @@ public class FrameBorrar extends javax.swing.JFrame {
      */
     public FrameBorrar() {
         initComponents();
+        TablaFacturas.setEnabled(false);
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
 
@@ -41,8 +42,8 @@ public class FrameBorrar extends javax.swing.JFrame {
             m.addRow(objetos);
         }
 
-        this.Tabla.setModel(m);
-        this.Tabla.setVisible(true);
+        this.TablaFacturas.setModel(m);
+        this.TablaFacturas.setVisible(true);
     }
 
     /**
@@ -59,10 +60,9 @@ public class FrameBorrar extends javax.swing.JFrame {
         TextoBorrar = new javax.swing.JLabel();
         jcodigo = new javax.swing.JTextField();
         JScrollPanel = new javax.swing.JScrollPane();
-        Tabla = new javax.swing.JTable();
+        TablaFacturas = new javax.swing.JTable();
         Borrar = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
-        Actualizar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -79,7 +79,7 @@ public class FrameBorrar extends javax.swing.JFrame {
 
         TextoBorrar.setText("Inserte el codigo de la factura que quiere borrar");
 
-        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+        TablaFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -90,7 +90,7 @@ public class FrameBorrar extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        JScrollPanel.setViewportView(Tabla);
+        JScrollPanel.setViewportView(TablaFacturas);
 
         Borrar.setText("Borrar");
         Borrar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,13 +106,6 @@ public class FrameBorrar extends javax.swing.JFrame {
             }
         });
 
-        Actualizar.setText("Actualizar");
-        Actualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -121,40 +114,32 @@ public class FrameBorrar extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
-                        .addComponent(TextoBorrar)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextoBorrar))
                         .addGap(36, 36, 36)
-                        .addComponent(jcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(132, 132, 132))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(Atras)
-                                .addGap(204, 204, 204)))))
-                .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                        .addComponent(jcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(207, 207, 207)
+                        .addComponent(Atras)))
+                .addGap(57, 57, 57)
+                .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TextoBorrar)
                     .addComponent(jcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66)
-                .addComponent(Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(141, 141, 141)
                 .addComponent(Atras)
                 .addGap(50, 50, 50))
         );
@@ -165,11 +150,11 @@ public class FrameBorrar extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 145, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -189,29 +174,20 @@ public class FrameBorrar extends javax.swing.JFrame {
         } catch (NonexistentEntityException ex) {
 
         }
-    }//GEN-LAST:event_BorrarActionPerformed
-
-    private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
-
-        ControladorFactura cf = new ControladorFactura(emf);
-
         List<Factura> facturas = cf.findFacturaEntities();
 
         DefaultTableModel m = new DefaultTableModel();
 
         m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
+        for (Factura f : facturas) {
 
-        for (Factura fac : facturas) {
-            
-            Object[] objetos = {fac.getPk(), fac.getFechaEmision(), fac.getDescripcion(), fac.getTotalImporte()};
+            Object[] objetos = {f.getPk(), f.getFechaEmision(), f.getDescripcion(), f.getTotalImporte()};
             m.addRow(objetos);
         }
 
-        Tabla.setModel(m);
-        Tabla.setVisible(true);
-    }//GEN-LAST:event_ActualizarActionPerformed
+        TablaFacturas.setModel(m);
+        TablaFacturas.setVisible(true);
+    }//GEN-LAST:event_BorrarActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
 
@@ -259,11 +235,10 @@ public class FrameBorrar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Actualizar;
     private javax.swing.JButton Atras;
     private javax.swing.JButton Borrar;
     private javax.swing.JScrollPane JScrollPanel;
-    private javax.swing.JTable Tabla;
+    private javax.swing.JTable TablaFacturas;
     private javax.swing.JLabel TextoBorrar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

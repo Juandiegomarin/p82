@@ -4,6 +4,21 @@
  */
 package application;
 
+import controllers.ControladorFactura;
+import entities.Factura;
+import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Juan Diego
@@ -15,6 +30,38 @@ public class FrameModificar extends javax.swing.JFrame {
      */
     public FrameModificar() {
         initComponents();
+        TablaFacturas.setEnabled(false);
+
+        this.textoError.setVisible(false);
+        this.textoVacio.setVisible(false);
+
+        this.fecha.setVisible(false);
+        this.textFecha.setVisible(false);
+
+        this.descripcion.setVisible(false);
+        this.textDesc.setVisible(false);
+
+        this.importe.setVisible(false);
+        this.textImporte.setVisible(false);
+
+        this.botonModificar.setVisible(false);
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+        List<Factura> facturas = cf.findFacturaEntities();
+
+        DefaultTableModel m = new DefaultTableModel();
+
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
+        for (Factura factura : facturas) {
+
+            Object[] objetos = {factura.getPk(), factura.getFechaEmision(), factura.getDescripcion(), factura.getTotalImporte()};
+            m.addRow(objetos);
+        }
+
+        this.TablaFacturas.setModel(m);
+        this.TablaFacturas.setVisible(true);
     }
 
     /**
@@ -27,27 +74,151 @@ public class FrameModificar extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        textoCodigo = new javax.swing.JLabel();
+        Codigo = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaFacturas = new javax.swing.JTable();
+        Atras = new javax.swing.JButton();
+        OkeyBotton = new javax.swing.JButton();
+        fecha = new javax.swing.JLabel();
+        textFecha = new javax.swing.JTextField();
+        descripcion = new javax.swing.JLabel();
+        importe = new javax.swing.JLabel();
+        textDesc = new javax.swing.JTextField();
+        textImporte = new javax.swing.JTextField();
+        botonModificar = new javax.swing.JButton();
+        textoError = new javax.swing.JLabel();
+        textoVacio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        textoCodigo.setText("Introduce el codigo de la factura que quieraas modificar");
+
+        TablaFacturas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaFacturas);
+
+        Atras.setText("Atras");
+        Atras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtrasActionPerformed(evt);
+            }
+        });
+
+        OkeyBotton.setText("Ok");
+        OkeyBotton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OkeyBottonActionPerformed(evt);
+            }
+        });
+
+        fecha.setText("Fecha");
+
+        descripcion.setText("Descripcion");
+
+        importe.setText("Importe");
+
+        textDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textDescActionPerformed(evt);
+            }
+        });
+
+        botonModificar.setText("Modificar");
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarActionPerformed(evt);
+            }
+        });
+
+        textoError.setText("Esa factura no esxiste , vuelva a introducir el codigo");
+
+        textoVacio.setText("Inserta al menos un dato para modificar la factura");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(342, 342, 342)
-                .addComponent(jLabel1)
-                .addContainerGap(644, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textoCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textoError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(OkeyBotton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(Codigo, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(textoVacio)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(importe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(textImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(29, 29, 29)
+                                    .addComponent(textFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Atras, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonModificar))))
+                .addGap(49, 49, 49)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(jLabel1)
-                .addContainerGap(532, Short.MAX_VALUE))
+                .addGap(61, 61, 61)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoCodigo)
+                    .addComponent(Codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OkeyBotton)
+                    .addComponent(textoError))
+                .addGap(47, 47, 47)
+                .addComponent(textoVacio)
+                .addGap(46, 46, 46)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fecha)
+                    .addComponent(textFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(descripcion)
+                    .addComponent(textDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(importe)
+                    .addComponent(textImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
+                .addComponent(botonModificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Atras)
+                .addGap(50, 50, 50))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -63,6 +234,286 @@ public class FrameModificar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+        // TODO add your handling code here:
+
+        FrameTotal f = new FrameTotal();
+
+        f.setVisible(true);
+
+        System.out.println(f);
+        this.dispose();
+    }//GEN-LAST:event_AtrasActionPerformed
+
+    private void OkeyBottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkeyBottonActionPerformed
+        // TODO add your handling code here:
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+
+        String pk = Codigo.getText();
+        int key = 0;
+        try {
+            key = Integer.parseInt(pk);
+            this.textoError.setVisible(false);
+        } catch (NumberFormatException nfe) {
+            this.textoError.setVisible(true);
+        }
+
+        boolean seguir = false;
+        List<Factura> facturas = cf.findFacturaEntities();
+
+        for (Factura factura : facturas) {
+
+            if (factura.getPk() == key) {
+                seguir = true;
+            }
+
+        }
+
+        if (seguir) {
+            fecha.setVisible(true);
+            textFecha.setVisible(true);
+
+            this.descripcion.setVisible(true);
+            this.textDesc.setVisible(true);
+
+            this.importe.setVisible(true);
+            this.textImporte.setVisible(true);
+
+            this.botonModificar.setVisible(true);
+        } else {
+            this.textoError.setVisible(true);
+
+            fecha.setVisible(false);
+            textFecha.setVisible(false);
+
+            this.descripcion.setVisible(false);
+            this.textDesc.setVisible(false);
+
+            this.importe.setVisible(false);
+            this.textImporte.setVisible(false);
+
+            this.botonModificar.setVisible(false);
+        }
+    }//GEN-LAST:event_OkeyBottonActionPerformed
+
+    private void textDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textDescActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Factura");
+
+        ControladorFactura cf = new ControladorFactura(emf);
+
+        int pk = Integer.parseInt(this.Codigo.getText());
+
+        Factura aux = cf.findFactura(pk);
+
+        LocalDate fec;
+        Date fecha = null;
+        double importe = 0;
+        String desc = "";
+
+        if (textFecha.getText().equals("") && textImporte.getText().equals("") && textDesc.getText().equals("")) {
+
+            textoVacio.setVisible(true);
+
+        } else if (textFecha.getText().equals("") && textDesc.getText().equals("") && !(textImporte.equals(""))) {
+
+            try {
+
+                importe = Double.parseDouble(textImporte.getText());
+
+                if (importe < 0) {
+                    importe = 0;
+                }
+                if (importe > 999.99) {
+                    importe = 999.99;
+                }
+
+                aux.setTotalImporte(BigDecimal.valueOf(importe));
+
+                try {
+                    cf.edit(aux);
+                } catch (Exception ex) {
+                    Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (NumberFormatException nfe) {
+            }
+
+        } else if (textFecha.getText().equals("") && textImporte.getText().equals("") && !(textDesc.equals(""))) {
+
+            desc = textDesc.getText();
+            aux.setDescripcion(desc);
+
+            try {
+                cf.edit(aux);
+            } catch (Exception ex) {
+                Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (textImporte.getText().equals("") && textDesc.getText().equals("") && !(textFecha.equals(""))) {
+
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                fec = LocalDate.parse(textFecha.getText(), formatter);
+
+                aux.setFechaEmision(new java.sql.Date(fec.getYear() - 1900, fec.getMonthValue() - 1, fec.getDayOfMonth()));
+                try {
+                    cf.edit(aux);
+                } catch (Exception ex) {
+                    Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+
+            } catch (Exception e) {
+
+            }
+
+        } else if (textFecha.getText().equals("") && !textImporte.getText().equals("") && !(textDesc.equals(""))) {
+
+            try {
+
+                importe = Double.parseDouble(textImporte.getText());
+                desc = textDesc.getText();
+
+                if (importe < 0) {
+                    importe = 0;
+                }
+                if (importe > 999.99) {
+                    importe = 999.99;
+                }
+
+                aux.setTotalImporte(BigDecimal.valueOf(importe));
+                aux.setDescripcion(desc);
+
+                try {
+                    cf.edit(aux);
+                } catch (Exception ex) {
+                    Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (NumberFormatException nfe) {
+            }
+
+        } else if (!textFecha.getText().equals("") && !textImporte.getText().equals("") && (textDesc.getText().equals(""))) {
+
+            try {
+
+                importe = Double.parseDouble(textImporte.getText());
+
+                if (importe < 0) {
+                    importe = 0;
+                }
+                if (importe > 999.99) {
+                    importe = 999.99;
+                }
+
+                aux.setTotalImporte(BigDecimal.valueOf(importe));
+            } catch (NumberFormatException nfe) {
+
+            }
+
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                fec = LocalDate.parse(textFecha.getText(), formatter);
+
+                aux.setFechaEmision(new java.sql.Date(fec.getYear() - 1900, fec.getMonthValue() - 1, fec.getDayOfMonth()));
+
+            } catch (Exception e) {
+
+            }
+
+            try {
+                cf.edit(aux);
+            } catch (Exception ex) {
+                Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+
+        } else if (!textFecha.getText().equals("") && textImporte.getText().equals("") && !(textDesc.getText().equals(""))) {
+
+            desc = textDesc.getText();
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                fec = LocalDate.parse(textFecha.getText(), formatter);
+
+                aux.setFechaEmision(new java.sql.Date(fec.getYear() - 1900, fec.getMonthValue() - 1, fec.getDayOfMonth()));
+                aux.setDescripcion(desc);
+            } catch (Exception e) {
+
+            }
+
+            try {
+                cf.edit(aux);
+            } catch (Exception ex) {
+                Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+
+        } else {
+
+            try {
+
+                importe = Double.parseDouble(textImporte.getText());
+
+                if (importe < 0) {
+                    importe = 0;
+                }
+                if (importe > 999.99) {
+                    importe = 999.99;
+                }
+
+                aux.setTotalImporte(BigDecimal.valueOf(importe));
+            } catch (NumberFormatException nfe) {
+
+            }
+            desc = textDesc.getText();
+            aux.setDescripcion(desc);
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                fec = LocalDate.parse(textFecha.getText(), formatter);
+
+                aux.setFechaEmision(new java.sql.Date(fec.getYear() - 1900, fec.getMonthValue() - 1, fec.getDayOfMonth()));
+
+            } catch (Exception e) {
+
+            }
+
+            try {
+                cf.edit(aux);
+            } catch (Exception ex) {
+                Logger.getLogger(FrameModificar.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+
+        }
+
+        List<Factura> facturas = cf.findFacturaEntities();
+
+        DefaultTableModel m = new DefaultTableModel();
+
+        m.setColumnIdentifiers(new String[]{"Pk", "Fecha", "Descripcion", "Precio"});
+        for (Factura f : facturas) {
+
+            Object[] objetos = {f.getPk(), f.getFechaEmision(), f.getDescripcion(), f.getTotalImporte()};
+            m.addRow(objetos);
+        }
+
+        TablaFacturas.setModel(m);
+        TablaFacturas.setVisible(true);
+
+    }//GEN-LAST:event_botonModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,7 +551,21 @@ public class FrameModificar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton Atras;
+    private javax.swing.JTextField Codigo;
+    private javax.swing.JButton OkeyBotton;
+    private javax.swing.JTable TablaFacturas;
+    private javax.swing.JButton botonModificar;
+    private javax.swing.JLabel descripcion;
+    private javax.swing.JLabel fecha;
+    private javax.swing.JLabel importe;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField textDesc;
+    private javax.swing.JTextField textFecha;
+    private javax.swing.JTextField textImporte;
+    private javax.swing.JLabel textoCodigo;
+    private javax.swing.JLabel textoError;
+    private javax.swing.JLabel textoVacio;
     // End of variables declaration//GEN-END:variables
 }

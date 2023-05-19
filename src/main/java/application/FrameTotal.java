@@ -121,6 +121,7 @@ public class FrameTotal extends javax.swing.JFrame {
         
         FrameModificar fm= new FrameModificar();
         fm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarActionPerformed
